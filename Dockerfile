@@ -6,7 +6,7 @@ RUN apk update && \
     apk add bash less geoip nginx nginx-mod-http-headers-more nginx-mod-http-geoip nginx-mod-stream nginx-mod-stream-geoip ca-certificates git tzdata zip \
     libmcrypt-dev zlib-dev gmp-dev freetype-dev libjpeg-turbo-dev libpng-dev curl \
     php8-common php8-fpm php8-json php8-zlib php8-xml php-xmlwriter php8-pdo php8-phar php8-openssl php8-fileinfo php8-pecl-imagick \
-    php8-pdo_mysql php8-mysqli php8-session \
+    php8-pdo_mysql php8-mysqli php8-sqlite3 php8-pdo_sqlite php8-session \
     php8-gd php8-iconv php8-pecl-mcrypt php8-gmp php8-zip \
     php8-curl php8-opcache php8-ctype php8-pecl-apcu php8-pecl-memcached \
     php8-intl php8-bcmath php8-dom php8-mbstring php8-simplexml php8-soap php8-tokenizer php8-xmlreader php8-xmlwriter php8-pcntl && \
@@ -67,7 +67,7 @@ WORKDIR /var/www/
 EXPOSE 80
 
 # Configure a healthcheck to validate that everything is up&running
-HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/fpm-ping
 
 ENTRYPOINT ["sh", "/etc/entrypoint.sh"]
 
