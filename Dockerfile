@@ -1,6 +1,6 @@
-FROM alpine:3.13
+FROM alpine:3.15
 LABEL Maintainer="Mathieu LESNIAK <mathieu@lesniak.fr>"\
-    Description="Lightweight container with Nginx 1.18 & PHP-FPM 8 based on Alpine Linux."
+    Description="Lightweight container with Nginx 1.20 & PHP-FPM 8 based on Alpine Linux."
 
 RUN apk update && \
     apk add bash less geoip nginx nginx-mod-http-headers-more nginx-mod-http-geoip nginx-mod-stream nginx-mod-stream-geoip ca-certificates git tzdata zip \
@@ -45,7 +45,6 @@ RUN { \
 
 RUN sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/usr:\/bin\/bash/g" /etc/passwd && \
     sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/usr:\/bin\/bash/g" /etc/passwd- && \
-    rm /etc/nginx/conf.d/default.conf && \
     ln -s /sbin/php-fpm8 /sbin/php-fpm && \
     ln -s /usr/bin/php8 /usr/bin/php
 
