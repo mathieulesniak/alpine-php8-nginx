@@ -11,7 +11,10 @@ help: ## This help.
 
 build: ## Build docker image
 	docker build --rm -f "Dockerfile" -t ${PROJECT_NAME}:${VERSION} .
-
 push: ## Push to docker registry
 	docker tag ${PROJECT_NAME}:latest ${REGISTRY_NAME}:${VERSION}
 	docker push ${REGISTRY_NAME}
+
+build-and-push-multi: ## Build amd64 and arm64 images
+	docker buildx build --rm  --platform linux/amd64,linux/arm64 -t ${REGISTRY_NAME}:${VERSION} --push .
+
