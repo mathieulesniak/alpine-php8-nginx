@@ -12,6 +12,7 @@ RUN apk update && \
     php8-intl php8-bcmath php8-dom php8-mbstring php8-simplexml php8-soap php8-tokenizer php8-xmlreader php8-xmlwriter php8-posix php8-pcntl php8-ftp && \
     apk add -u musl && \
     apk add msmtp && \
+    mkdir /etc/nginx/server-override && \
     rm -rf /var/cache/apk/*
 
 RUN { \
@@ -56,6 +57,7 @@ RUN cd /tmp/ && \
 
 ADD php-fpm.conf /etc/php8/
 ADD nginx-site.conf /etc/nginx/nginx.conf
+
 ADD entrypoint.sh /etc/entrypoint.sh
 ADD ownership.sh /
 RUN mkdir -p /var/www/public
