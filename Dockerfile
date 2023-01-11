@@ -1,6 +1,8 @@
-FROM alpine:3.15
+FROM alpine:3.16
 LABEL Maintainer="Mathieu LESNIAK <mathieu@lesniak.fr>"\
-    Description="Lightweight container with Nginx 1.20 & PHP-FPM 8 based on Alpine Linux."
+    Description="Lightweight container with Nginx 1.22 & PHP-FPM 8 based on Alpine Linux."
+
+ENV MUSL_LOCPATH="/usr/share/i18n/locales/musl"
 
 RUN apk update && \
     apk add bash less geoip nginx nginx-mod-http-headers-more nginx-mod-http-geoip nginx-mod-stream nginx-mod-stream-geoip ca-certificates git tzdata zip \
@@ -12,6 +14,8 @@ RUN apk update && \
     php8-intl php8-bcmath php8-dom php8-mbstring php8-simplexml php8-soap php8-tokenizer php8-xmlreader php8-xmlwriter php8-posix php8-pcntl php8-ftp && \
     apk add -u musl && \
     apk add msmtp && \
+    apk add musl-locales musl-locales-lang && cd "$MUSL_LOCPATH" \
+    && for i in *.UTF-8; do cp -a "$i" "${i%%.UTF-8}"; done && \
     mkdir /etc/nginx/server-override && \
     rm -rf /var/cache/apk/*
 
@@ -46,8 +50,7 @@ RUN { \
 
 RUN sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/usr:\/bin\/bash/g" /etc/passwd && \
     sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/usr:\/bin\/bash/g" /etc/passwd- && \
-    ln -s /sbin/php-fpm8 /sbin/php-fpm && \
-    ln -s /usr/bin/php8 /usr/bin/php
+    ln -s /sbin/php-fpm8 /sbin/php-fpm
 
 # Composer
 RUN cd /tmp/ && \
