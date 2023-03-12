@@ -1,6 +1,6 @@
 FROM alpine:3.16
 LABEL Maintainer="Mathieu LESNIAK <mathieu@lesniak.fr>"\
-    Description="Lightweight container with Nginx 1.22 & PHP-FPM 8 based on Alpine Linux. Full locales enabled"
+    Description="Lightweight container with Nginx 1.22.1 & PHP-FPM 8 based on Alpine Linux. Full locales enabled"
 
 ENV MUSL_LOCPATH="/usr/share/i18n/locales/musl"
 
@@ -10,7 +10,7 @@ RUN apk update && \
     php8-common php8-fpm php8-json php8-zlib php8-xml php-xmlwriter php8-pdo php8-phar php8-openssl php8-fileinfo php8-pecl-imagick \
     php8-pdo_mysql php8-mysqli php8-sqlite3 php8-pdo_sqlite php8-session \
     php8-gd php8-iconv php8-pecl-mcrypt php8-gmp php8-zip \
-    php8-curl php8-opcache php8-ctype php8-pecl-apcu php8-pecl-memcached php8-pecl-redis php8-exif \
+    php8-curl php8-opcache php8-ctype php8-pecl-apcu php8-pecl-memcached php8-pecl-redis php8-pecl-yaml php8-exif \
     php8-intl php8-bcmath php8-dom php8-mbstring php8-simplexml php8-soap php8-tokenizer php8-xmlreader php8-xmlwriter php8-posix php8-pcntl php8-ftp && \
     apk add -u musl && \
     apk add msmtp && \
