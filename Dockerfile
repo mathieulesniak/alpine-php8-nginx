@@ -35,9 +35,9 @@ RUN { \
     echo 'opcache.max_wasted_percentage=5;' \
     echo 'opcache.revalidate_freq=120'; \
     echo 'opcache.fast_shutdown=1'; \
-    echo 'opcache.enable_cli=0'; \ 
+    echo 'opcache.enable_cli=0'; \
     echo 'opcache.jit_buffer_size=64M'; \
-    echo 'opcache.jit=tracing';\ 
+    echo 'opcache.jit=tracing';\
     } > /etc/php8/conf.d/opcache-recommended.ini
 
 # limits settings
@@ -47,6 +47,12 @@ RUN { \
     echo 'max_input_vars=5000'; \
     echo "date.timezone='Europe/Paris'"; \
     } > /etc/php8/conf.d/limits.ini
+
+# security settings
+RUN { \
+    echo 'session.upload_progress.enabled = Off'; \
+} > /etc/php8/conf.d/security.ini
+
 
 RUN sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/usr:\/bin\/bash/g" /etc/passwd && \
     sed -i "s/nginx:x:100:101:nginx:\/var\/lib\/nginx:\/sbin\/nologin/nginx:x:100:101:nginx:\/usr:\/bin\/bash/g" /etc/passwd- && \
@@ -74,4 +80,3 @@ EXPOSE 80
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:80/fpm-ping
 
 ENTRYPOINT ["sh", "/etc/entrypoint.sh"]
-
